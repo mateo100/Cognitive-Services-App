@@ -1,5 +1,10 @@
 # Cognitive-Services-App
 
+# Skład zespolu
+1. Mateusz Karwowski - lider
+2. Krzysztof Kończak
+3. Dzmitry Kaliada
+
 # Zakres projektu
 1. Możliwość przekonwertowania każdej strony / dokumentu / artykułu w formacie .PDF na format zdjęcia.
 2. Zastosowanie Computer Vision API w celu przekonwertowania każdego zdjęcia w tekst.
