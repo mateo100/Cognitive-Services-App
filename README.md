@@ -16,9 +16,9 @@
 3. Cognitive Services
 
 # Harmonogram
-1. Zakres funkcjonalny
-2. Podział prac
-3. Implementacja
-4. Testy manualne
-5. Sprawozdanie końcowe
-6. Prezentacja
+1. Zakres funkcjonalny - 1 tyg
+2. Podział prac - 2 tyg
+3. Implementacja - 3 tyg
+4. Testy manualne - 4 tyg
+5. Sprawozdanie końcowe - 5 tyg
+6. Prezentacja - 6 tyg
