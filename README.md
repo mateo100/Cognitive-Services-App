@@ -10,7 +10,9 @@
 
 1. Python
 2. Computer Vision
-3. Cognitive Services
+3. Cognitive Services (OCR API, READ API)
+4. Pycharm
+5. Matplotlib
 
 # Harmonogram
 
@@ -25,11 +27,11 @@
 
 ### Temat projektu
 
-Optyczne rozpoznawanie znaków przy pomocy rozwiązań Cognitive Services dostarczanych przez platformę Azure.
+Rozpoznawanie wyrazów przy pomocy rozwiązań Cognitive Services dostarczanych przez platformę Azure - OCR i READ API.
 
 ### Cel projektu
 
-Głównym cele projektu było sprawdzenie dwóch metod rozpoznawania znaków: OCR oraz READ API, sposobu ich użycia oraz porównania ze sobą. 
+Głównym celem projektu było sprawdzenie dwóch metod rozpoznawania znaków: OCR oraz READ API, sposobu ich użycia oraz porównania ze sobą. 
 
 ### READ API
 
@@ -37,10 +39,10 @@ READ API to jedna z nowszych technologii platformy Azure. Jest zoptymalizowana p
 
 ### Wymagania wejściowe READ API (co do obrazu)
 
--	Obsługiwane formaty plików: JPEG, PNG, BMP, PDF i TIFF
--	W przypadku plików PDF i TIFF, do 2000 stron (tylko pierwsze dwie strony dla warstwy Bezpłatna) są przetwarzane.
--	Rozmiar pliku musi być mniejszy niż 50 MB (4 MB dla warstwy Bezpłatna) i wymiary co najmniej 50 x 50 pikseli i maksymalnie 10000 x 10000 pikseli.
--	Wymiary PDF muszą mieć co najwyżej 17 x 17 cali, odpowiadające rozmiarowi papieru legalnego lub A3 i mniejszym.
+-	Obsługiwane formaty plików: JPEG, PNG, BMP, PDF i TIFF.
+-	W przypadku plików PDF i TIFF, są przetwarzane do 2000 stron.
+-	Rozmiar pliku musi być mniejszy niż 50 MB i wymiary co najmniej 50 x 50 pikseli, a maksymalnie 10000 x 10000 pikseli.
+-	Wymiary PDF muszą mieć co najwyżej 17 x 17 cali, odpowiadające rozmiarowi formatu Legal lub A3 i mniejszym.
 
 ### Wywołanie odczytu
 
@@ -48,8 +50,8 @@ W sposób asynchroniczny interfejs API wyodrębnia tekst z pobranego obrazu. Wyw
 
 ### Wywołanie operacji Get Results
 
-Drugim krokiem jest wywołanie operacji Get Results wyniki . Ta operacja przyjmuje jako dane wejściowe Identyfikator operacji, który został utworzony przez operację odczytu. Zwraca odpowiedź JSON, która zawiera pole stanu z następującymi możliwymi wartościami. Tę operację można wywołać iteracyjnie, dopóki nie zwróci wartości z wartością sukces .
-Gdy wartość w polu stan zostanie zakończona pomyślnie , odpowiedź JSON zawiera wyodrębnioną zawartość tekstową z obrazu lub dokumentu. Odpowiedź JSON zachowuje pierwotną grupę wierszy rozpoznanych wyrazów. Zawiera wyodrębnione wiersze tekstu.
+Drugim krokiem jest wywołanie operacji Get Results. Ta operacja przyjmuje jako dane wejściowe identyfikator operacji, który został utworzony przez operację odczytu. Zwraca odpowiedź w formacie JSON, która zawiera pole stanu. Tę operację można wywołać iteracyjnie, dopóki nie zwróci wartości z wartością sukces.
+Gdy wartość w polu stan zostanie zakończona pomyślnie, odpowiedź JSON zawiera wyodrębnioną zawartość tekstową z obrazu lub dokumentu. Odpowiedź JSON zachowuje pierwotną grupę wierszy rozpoznanych wyrazów. Zawiera wyodrębnione wiersze tekstu.
 
 ### Przykład
 ```
@@ -408,8 +410,8 @@ Gdy wartość w polu stan zostanie zakończona pomyślnie , odpowiedź JSON zawi
 
 Interfejs API OCR jest przeznaczony do szybkiego wyodrębniania niewielkich ilości tekstu na obrazach. Działa synchronicznie w celu zapewnienia natychmiastowych wyników i umożliwia rozpoznawanie tekstu w wielu językach.
 
-W trakcie przetwarzania obrazów interfejs API OCR zwraca hierarchię informacji, która zawiera:
-- Regiony na obrazie zawierającym tekst
+W trakcie przetwarzania obrazów, interfejs API OCR zwraca hierarchię informacji, która zawiera:
+-  Regiony na obrazie zawierającym tekst
 -	Wiersze tekstu w każdym regionie
 -	Słowa w każdym wierszu tekstu
 
@@ -422,7 +424,7 @@ for line in line_infos:
         for word_info in word_metadata["words"]:
             word_infos.append(word_info)
 ```
-W przypadku każdego z tych elementów interfejs API OCR zwraca również współrzędne pola ograniczenia , które definiują prostokąt wskazujący lokalizację regionu, wiersza lub słowa na obrazie.
+W przypadku każdego z tych elementów interfejs API OCR zwraca również współrzędne pola ograniczenia, które definiują prostokąt wskazujący lokalizację regionu, wiersza lub słowa na obrazie.
 
 ### Przykład
 
@@ -552,10 +554,10 @@ W przypadku każdego z tych elementów interfejs API OCR zwraca również wspó�
 
 ### Porównanie OCR API i READ API
 
--	Wadą metody OCR mogą być wyniki fałszywie dodatnie pojawiające się, gdy obraz zostanie uznany za zdominowany przez tekst. READ API korzysta z najnowszych modeli rozpoznawania i jest zoptymalizowany pod kątem obrazów, na których znajduje się duża ilość tekstu lub chaos wizualny.
--	READ API jest lepszą opcją w przypadku zeskanowanych dokumentów, na których znajduje się duża ilość tekstu. READ API umożliwia również automatyczne określenie właściwego modelu rozpoznawania, którego należy użyć, biorą pod uwagę wiersze tekstu i pomocnicze obrazy z drukowanym tekstem, jak również rozpoznawanie pisma ręcznego.
+-	Wadą metody OCR mogą być fałszywe wyniki, gdy obraz zostanie uznany za zdominowany przez tekst. READ API korzysta z najnowszych modeli rozpoznawania i jest zoptymalizowany pod kątem obrazów, na których znajduje się duża ilość tekstu lub chaos wizualny.
+-	READ API jest lepszą opcją w przypadku zeskanowanych dokumentów, w których znajduje się duża ilość tekstu. READ API umożliwia również automatyczne określenie właściwego modelu rozpoznawania, którego należy użyć, biorąc pod uwagę wiersze tekstu i pomocnicze obrazy z drukowanym tekstem, jak również rozpoznawanie pisma ręcznego.
 -	Ponieważ READ API umożliwia pracę z większymi dokumentami, działa asynchronicznie, aby nie blokować aplikacji w trakcie odczytywania zawartości i zwracania wyników do aplikacji. OCR API działa natomiast synchronicznie.
--	Interfejs API OCR służy do szybkiego wyodrębniania niewielkich ilości tekstu z obrazów. Read API to lepsza opcja w przypadku zeskanowanych dokumentów zawierających dużo tekstu.
+-	Interfejs API OCR służy do szybkiego wyodrębniania niewielkich ilości tekstu z obrazów. Read API to lepsza opcja w przypadku zeskanowanych dokumentów zawierających dużą ilość tekstu.
 
 
 ### Wnioski
