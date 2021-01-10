@@ -5,11 +5,6 @@
 2. Krzysztof Kończak
 3. Dzmitry Kaliada
 
-# Zakres projektu
-1. Możliwość przekonwertowania każdej strony / dokumentu / artykułu w formacie .PDF na format zdjęcia.
-2. Zastosowanie Computer Vision API w celu przekonwertowania każdego zdjęcia w tekst.
-3. Parsowanie odpowiedzi w JSON z naszego API i wypisanie rezultatów do pliku tekstowego.
-
 # Technologie
 1. Python
 2. Computer Vision
@@ -22,3 +17,13 @@
 4. Testy manualne - 4 tyg
 5. Sprawozdanie końcowe - 5 tyg
 6. Prezentacja - 6 tyg
+
+# RAPORT KOŃCOWY
+
+### Temat projektu
+
+Optyczne rozpoznawanie znaków przy pomocy rozwiązań Cognitive Services dostarczanych przez platformę Azure.
+
+### Cel projektu
+
+Głównym cele projektu było sprawdzenie dwóch metod rozpoznawania znaków: OCR oraz READ API, sposobu ich użycia oraz porównania ze sobą. 
