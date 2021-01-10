@@ -546,6 +546,7 @@ W przypadku każdego z tych elementów interfejs API OCR zwraca również wspó�
 ```
 
 ![Albert Einstein - quotation](https://i.pinimg.com/originals/00/fb/11/00fb11f12caebcaf3707fbdbf22224c1.png)
+![Final result](https://github.com/mateo100/Cognitive-Services-App/blob/main/final.png?raw=true)
 
 ### Porównanie OCR API i READ API
 
