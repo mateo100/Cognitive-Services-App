@@ -544,8 +544,10 @@ W przypadku każdego z tych elementów interfejs API OCR zwraca również wspó�
    ]
 }
 ```
-
+#### Obraz do przetworzenia
 ![Albert Einstein - quotation](https://i.pinimg.com/originals/00/fb/11/00fb11f12caebcaf3707fbdbf22224c1.png)
+
+#### Wynik przetworzenia obrazu
 ![Final result](https://github.com/mateo100/Cognitive-Services-App/blob/main/final.png?raw=true)
 
 ### Porównanie OCR API i READ API
