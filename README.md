@@ -1,21 +1,24 @@
 # Cognitive-Services-App
 
 # Skład zespolu
-1. Mateusz Karwowski - lider
-2. Krzysztof Kończak
-3. Dzmitry Kaliada
+
+1. Mateusz Karwowski - lider (READ API + sprawozdanie + wnioski)
+2. Krzysztof Kończak (OCR API + sprawozdanie + wnioski)
+3. Dzmitry Kaliada (Porównanie dwóch metod (READ z OCR) + testy manualne + wnioski)
 
 # Technologie
+
 1. Python
 2. Computer Vision
 3. Cognitive Services
 
 # Harmonogram
-1. Zakres funkcjonalny - 1 tyg
-2. Podział prac - 2 tyg
-3. Implementacja - 3 tyg
-4. Testy manualne - 4 tyg
-5. Sprawozdanie końcowe - 5 tyg
+
+1. Zakres funkcjonalny - 1 tyg OK.
+2. Podział prac - 2 tyg OK.
+3. Implementacja - 3 tyg OK.
+4. Testy manualne - 4 tyg OK.
+5. Sprawozdanie końcowe - 5 tyg OK.
 6. Prezentacja - 6 tyg
 
 # RAPORT KOŃCOWY
@@ -44,6 +47,7 @@ READ API to jedna z nowszych technologii platformy Azure. Jest zoptymalizowana p
 W sposób asynchroniczny interfejs API wyodrębnia tekst z pobranego obrazu. Wywołanie zwraca w odpowiedzi pole nagłówka o nazwie Operation-Location. Wartość Operation-Location zawiera adres URL, który jest identyfikatorem operacji, która ma zostać wykonana w następnym kroku.
 
 ### Wywołanie operacji Get Results
+
 Drugim krokiem jest wywołanie operacji Get Results wyniki . Ta operacja przyjmuje jako dane wejściowe Identyfikator operacji, który został utworzony przez operację odczytu. Zwraca odpowiedź JSON, która zawiera pole stanu z następującymi możliwymi wartościami. Tę operację można wywołać iteracyjnie, dopóki nie zwróci wartości z wartością sukces .
 Gdy wartość w polu stan zostanie zakończona pomyślnie , odpowiedź JSON zawiera wyodrębnioną zawartość tekstową z obrazu lub dokumentu. Odpowiedź JSON zachowuje pierwotną grupę wierszy rozpoznanych wyrazów. Zawiera wyodrębnione wiersze tekstu.
 
@@ -399,3 +403,164 @@ Gdy wartość w polu stan zostanie zakończona pomyślnie , odpowiedź JSON zawi
    }
 }
 ```
+
+### OCR API
+
+Interfejs API OCR jest przeznaczony do szybkiego wyodrębniania niewielkich ilości tekstu na obrazach. Działa synchronicznie w celu zapewnienia natychmiastowych wyników i umożliwia rozpoznawanie tekstu w wielu językach.
+
+W trakcie przetwarzania obrazów interfejs API OCR zwraca hierarchię informacji, która zawiera:
+- Regiony na obrazie zawierającym tekst
+-	Wiersze tekstu w każdym regionie
+-	Słowa w każdym wierszu tekstu
+
+```
+# EXTRACT THE WORD BOUNDING BOXES AND TEXT
+line_infos = [region["lines"] for region in analysis["regions"]]
+word_infos = []
+for line in line_infos:
+    for word_metadata in line:
+        for word_info in word_metadata["words"]:
+            word_infos.append(word_info)
+```
+W przypadku każdego z tych elementów interfejs API OCR zwraca również współrzędne pola ograniczenia , które definiują prostokąt wskazujący lokalizację regionu, wiersza lub słowa na obrazie.
+
+### Przykład
+
+```
+{
+   "language":"en",
+   "textAngle":0.0,
+   "orientation":"Up",
+   "regions":[
+      {
+         "boundingBox":"29,78,266,286",
+         "lines":[
+            {
+               "boundingBox":"32,78,263,25",
+               "words":[
+                  {
+                     "boundingBox":"32,79,159,24",
+                     "text":"\"Insanity:"
+                  },
+                  {
+                     "boundingBox":"214,78,81,25",
+                     "text":"doing"
+                  }
+               ]
+            },
+            {
+               "boundingBox":"29,111,232,25",
+               "words":[
+                  {
+                     "boundingBox":"29,111,49,19",
+                     "text":"the"
+                  },
+                  {
+                     "boundingBox":"98,117,63,14",
+                     "text":"same"
+                  },
+                  {
+                     "boundingBox":"180,111,81,25",
+                     "text":"thing"
+                  }
+               ]
+            },
+            {
+               "boundingBox":"30,145,214,19",
+               "words":[
+                  {
+                     "boundingBox":"30,151,65,13",
+                     "text":"over"
+                  },
+                  {
+                     "boundingBox":"114,145,47,19",
+                     "text":"and"
+                  },
+                  {
+                     "boundingBox":"181,151,63,13",
+                     "text":"over"
+                  }
+               ]
+            },
+            {
+               "boundingBox":"30,178,148,25",
+               "words":[
+                  {
+                     "boundingBox":"30,179,82,24",
+                     "text":"again"
+                  },
+                  {
+                     "boundingBox":"131,178,47,19",
+                     "text":"and"
+                  }
+               ]
+            },
+            {
+               "boundingBox":"31,212,147,24",
+               "words":[
+                  {
+                     "boundingBox":"31,212,147,24",
+                     "text":"expecting"
+                  }
+               ]
+            },
+            {
+               "boundingBox":"30,245,147,19",
+               "words":[
+                  {
+                     "boundingBox":"30,245,147,19",
+                     "text":"different"
+                  }
+               ]
+            },
+            {
+               "boundingBox":"31,278,145,19",
+               "words":[
+                  {
+                     "boundingBox":"31,278,125,19",
+                     "text":"results."
+                  },
+                  {
+                     "boundingBox":"166,279,10,7",
+                     "text":"\""
+                  }
+               ]
+            },
+            {
+               "boundingBox":"29,345,250,19",
+               "words":[
+                  {
+                     "boundingBox":"29,345,98,19",
+                     "text":"Albert"
+                  },
+                  {
+                     "boundingBox":"146,345,133,19",
+                     "text":"Einstein"
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}
+```
+
+![Albert Einstein - quotation](https://i.pinimg.com/originals/00/fb/11/00fb11f12caebcaf3707fbdbf22224c1.png)
+
+### Porównanie OCR API i READ API
+
+-	Wadą metody OCR mogą być wyniki fałszywie dodatnie pojawiające się, gdy obraz zostanie uznany za zdominowany przez tekst. READ API korzysta z najnowszych modeli rozpoznawania i jest zoptymalizowany pod kątem obrazów, na których znajduje się duża ilość tekstu lub chaos wizualny.
+-	READ API jest lepszą opcją w przypadku zeskanowanych dokumentów, na których znajduje się duża ilość tekstu. READ API umożliwia również automatyczne określenie właściwego modelu rozpoznawania, którego należy użyć, biorą pod uwagę wiersze tekstu i pomocnicze obrazy z drukowanym tekstem, jak również rozpoznawanie pisma ręcznego.
+-	Ponieważ READ API umożliwia pracę z większymi dokumentami, działa asynchronicznie, aby nie blokować aplikacji w trakcie odczytywania zawartości i zwracania wyników do aplikacji. OCR API działa natomiast synchronicznie.
+-	Interfejs API OCR służy do szybkiego wyodrębniania niewielkich ilości tekstu z obrazów. Read API to lepsza opcja w przypadku zeskanowanych dokumentów zawierających dużo tekstu.
+
+
+### Wnioski
+
+Interfejs API OCR korzysta ze starszego modelu rozpoznawania, obsługuje tylko obrazy i działa synchronicznie, powracając natychmiast z wykrytym tekstem. Zaletą OCR API jest natomiast wsparcie dla większej liczby języków a także niższa cena ($1.50 na 1,000 transakcji).
+Read API używa nowszego modelu rozpoznawania, przyjmuje obraz lub dokument PDF jako dane wejściowe i asynchronicznie wyodrębnia tekst. Wadą READ API jest natomiast wsparcie dla mniejszej liczby języków a także wyższa cena ($2.50 na 1,000 transakcji).
+
+
+
+
+
